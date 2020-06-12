@@ -12,11 +12,15 @@ def downloadPunkt():
     else:
         ssl._create_default_https_context = _create_unverified_https_context
     nltk.download('punkt')
+def printArticleInfo(article):
+    print(str(article.title) + " -- " + str(article.authors))
+    print(article.summary)
+    print(" ")
 
 # find news site urls
-newsSites =  [newspaper.build('https://www.nytimes.com/' , memorize_articles=False),
-              newspaper.build('https://www.foxnews.com/' , memorize_articles=False),
-              newspaper.build('https://www.cnn.com/' , memorize_articles=False)]
+newsSites =  [newspaper.build('https://www.nytimes.com' , memoize_articles=False),
+              newspaper.build('https://www.nbcnews.com/' , memoize_articles=False),
+              newspaper.build('https://www.cnn.com' , memoize_articles=False)]
 #nyTimes_News = newspaper.build('https://www.nytimes.com/' , memorize_articles=False)
 
 # ask users to enter keyword
@@ -39,7 +43,8 @@ for newsSite in newsSites:
         article.download()
         article.parse()
         article.nlp()
+        if keyword in article.keywords:
+            printArticleInfo(article)
 
-    
 # open file to write to
 #newsSummary  = open('news_summary.txt', 'w')
